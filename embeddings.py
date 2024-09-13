@@ -20,7 +20,7 @@ class Embeddings:
         message: str = "", 
         data: Optional[torch.Tensor] = None
     ):
-        self.origin_model = origin_model
+        self.origin_model = os.path.basename(origin_model) if origin_model else None
         self.layer_id = layer_id
         self.message = message
         self.data = data
@@ -141,6 +141,8 @@ def load_embedding_list_all_layer_by_message(
     Returns:
     - A list of Embeddings objects, each corresponding to a specific layer.
     """
+
+    base_model = os.path.basename(base_model)
 
     embedding_lists = [
         Embeddings().load(os.path.join(directory, f"{base_model}_{i}_{message}.pt"))

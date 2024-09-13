@@ -1,6 +1,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from embeddings import Embeddings
 from perturbation import Perturbation
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 import numpy as np
 import functools
@@ -48,7 +49,7 @@ class Model_Extraction(_Model):
         for embeddings in embeds_list:
             embeddings.data = torch.zeros(len(inputs), self.n_dimension)
 
-        for input_index, input_text in enumerate(inputs):
+        for input_index, input_text in tqdm(enumerate(inputs)):
             input_text = apply_sft_template(input_text)
             input_ids = self.tokenizer(input_text, return_tensors='pt')['input_ids'].to(self.device)
 
